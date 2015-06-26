@@ -1,0 +1,43 @@
+ul, li {
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+    height: 31px;
+}
+
+#tabfirst li {
+    float: left;
+    background-image: url("../images/teacher/tab_u74.png");
+    width: 101px;
+    text-align: center;
+    position: relative;
+
+}
+
+div.contentfirst {
+    clear: left;
+    width: 800px;
+    display: none;
+}
+
+div .border {
+    border: 1px solid black;
+}
+
+#tabfirst li.tabin {
+    background-image: url("../images/teacher/tab_u74_mouseOver.png");
+}
+
+#tabfirst li.tabclick {
+    background-image: url("../images/teacher/tab_u76.png");
+}
+
+div.contentin {
+    display: block;
+}
+
+#tabfirst span {
+    position: relative;
+    top: 8px;
+}
+

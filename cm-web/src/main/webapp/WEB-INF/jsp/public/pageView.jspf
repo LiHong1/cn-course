@@ -1,0 +1,47 @@
+<%@ page language="java" pageEncoding="utf-8" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<div id=PageSelectorBar>
+    <div id=PageSelectorMemo>
+        页次：${currentPage}/${pageCount }页 &nbsp;
+        每页显示：${pageSize }条 &nbsp;
+        总记录数：${recordCount }条
+    </div>
+    <div class="manu">
+
+        <span onClick="javascript: gotoPage(${currentPage-1})"> <  Prev</span>
+
+        <s:iterator begin="%{beginPageIndex}" end="%{endPageIndex}" var="num">
+            <s:if test="#num == currentPage"> <%-- 当前页 --%>
+                <span class="current">${num}</span>
+            </s:if>
+            <s:else> <%-- 非当前页 --%>
+                <span onClick="gotoPage(${num});">${num}</span>
+            </s:else>
+
+        </s:iterator>
+
+        <span onClick="javascript: gotoPage(${currentPage+1})">Next  >  </span>
+
+
+        转到：
+        <select onchange="gotoPage(this.value)" id="_pn">
+            <s:iterator begin="1" end="%{pageCount}" var="num">
+                <option value="${num}">${num}</option>
+            </s:iterator>
+        </select>
+        <script type="text/javascript">
+            $("#_pn").val("${currentPage}");
+        </script>
+
+    </div>
+</div>
+<script type="text/javascript">
+    function gotoPage(pageNum) {
+        // window.location.href = "forum_show.action?id=${id}&pageNum=" + pageNum;
+        if (pageNum > 0 && pageNum <${pageCount+1}) {
+            $(document.getElementById("form")).append("<input type='hidden' name='pageNum' value='" + pageNum + "'>");
+            document.getElementById("form").submit();
+        }
+
+    }
+</script>

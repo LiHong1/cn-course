@@ -1,0 +1,17 @@
+table {
+    border-spacing: 1px;
+    border-spadding: 1px;
+    border: 0px;
+    background-color: #ccc;
+    clear: right;
+}
+
+tr {
+    background-color: white;
+    height: 30px;
+}
+
+table thead tr {
+    background-color: #711;
+    color: white;
+}

@@ -1,0 +1,52 @@
+html{background: #eee}
+#menu{
+    position: relative;
+    left: 50%;
+    margin-left: -70px;
+   margin-top:40px;
+   text-align: center;
+   border-spacing: 1px;
+   border-spadding:1px;
+   border:0px;
+   /*background-color: #797979;*/
+   width: 130px;
+    overflow: hidden;
+}
+#menu div{ 
+/* background:url(../images/menu/tag.gif);*/
+ /* height: 30px;*/
+    min-height: 30px;
+  }
+#menu div a{
+  text-decoration: none;
+  color: #000;
+  font-size: 13px;
+}
+#menu div a:hover{
+  color:red;
+}
+.arrow{
+    width: 10px;
+    height: 15px;
+    display: block;
+    float: left;
+    margin-top: 4px;
+    margin-left:28px ;
+}
+.arrow-close{
+    background: url("../images/menu/arrow_close.gif") no-repeat;
+}
+.arrow-open{
+    background: url("../images/menu/arrow_open.gif") no-repeat;
+}
+#getCourse,.getClass{display: block;float: left}
+.getClass{text-align: left;max-width: 80px}
+/*width: 90px;*/
+.course .arrow{
+    margin-top: 4px;
+    margin-left:32px ;
+}
+.class-a{
+    display: block;
+    margin-left: 30px;
+}

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+    <!-- 配置自动扫描的包 -->
+    <context:component-scan base-package="cm"></context:component-scan>
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+    <bean id="studentWebservice" class="cm.webservice.StudentWebserviceImpl"/>
+    <bean id="inInterceptor" class="cm.interceptor.AuthInterceptor"/>
+    <jaxws:endpoint id="studentWebService" implementor="#studentWebservice" address="/studentService">
+    <!--inInterceptors表示被外部调用时，调用此拦截器 -->
+ <!--   <jaxws:inInterceptors>
+        <bean class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor" />
+        <bean class="org.apache.cxf.ws.cm.security.wss4j.WSS4JInInterceptor">
+            <constructor-arg>
+                <map>
+                    &lt;!&ndash; 设置加密类型 &ndash;&gt;
+                    <entry key="action" value="UsernameToken" />
+                    &lt;!&ndash; 设置密码类型为明文 &ndash;&gt;
+                    <entry key="passwordType" value="PasswordText" />
+                    &lt;!&ndash;<entry key="action" value="UsernameToken Timestamp" /> 设置密码类型为加密<entry
+                        key="passwordType" value="PasswordDigest" /> &ndash;&gt;
+                    <entry key="passwordCallbackClass" value="com.service.handler.WsAuthHandler" />
+                </map>
+            </constructor-arg>
+        </bean>
+    </jaxws:inInterceptors>-->
+        <jaxws:inInterceptors>
+            <ref bean="inInterceptor"/>
+        </jaxws:inInterceptors>
+
+    </jaxws:endpoint>
+
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+    <aop:config proxy-target-class="true"/> --> <!-- 强制使用cglib -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+
+        <!-- 数据连接信息 -->
+        <property name="jdbcUrl" value="${jdbcUrl}"></property>
+        <property name="driverClass" value="${driverClass}"></property>
+        <property name="user" value="${user}"></property>
+        <property name="password" value="${password}"></property>
+        <!-- 其他配置 -->
+        <!--初始化时获取三个连接，取值应在minPoolSize与maxPoolSize之间。Default: 3 -->
+        <property name="initialPoolSize" value="3"></property>
+        <!--连接池中保留的最小连接数。Default: 3 -->
+        <property name="minPoolSize" value="3"></property>
+        <!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+        <property name="maxIdleTime" value="60"></property>
+        <!--连接池中保留的最大连接数。Default: 15 -->
+        <property name="maxPoolSize" value="50"></property>
+        <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+        <property name="acquireIncrement" value="3"></property>
+        <!-- 控制数据源内加载的PreparedStatements数量。如果maxStatements与maxStatementsPerConnection均为0，则缓存被关闭。Default: 0 -->
+        <property name="maxStatements" value="8"></property>
+        <!--maxStatementsPerConnection定义了连接池内单个连接所拥有的最大缓存statements数。Default: 0 -->
+        <property name="maxStatementsPerConnection" value="5"></property>
+
+
+    </bean>
+
+    <!-- 配置SessionFactory -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <!-- 指定hibernate的配置文件位置 -->
+        <!-- 指定hibernate的配置文件位置
+        <property name="configLocation" value="classpath:hibernate.cfg.xml"></property>-->
+        <!-- 配置c3p0数据库连接池 -->
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="hibernateProperties">
+            <props>
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>-->
+                <!--<prop key="hibernate.hbm2ddl.auto">create</prop>-->
+                <!--<prop key="hibernate.hbm2ddl.import_files">member.sql</prop>-->
+
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.jdbc.batch_size">50</prop>
+                <!-- <propery name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property> -->
+                <!--<prop key="hibernate.cache.use_query_cache">true</prop>-->
+                <!--<prop key="hibernate.cache.use_second_level_cache">true</prop>-->
+                <!--<prop key="hibernate.cache.use_structured_entries">true</prop>-->
+                <!--<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.EhCacheRegionFactory</prop>-->
+                <!--<prop key="net.sf.ehcache.configurationResourceName">ehcache.xml</prop>-->
+            </props>
+        </property>
+        <!--
+        <property name="mappingLocations" value="classpath*:cn.entity/*.hbm.xml"></property>  -->
+        <property name="packagesToScan" value="cm"/>
+    </bean>
+
+
+    <!-- 配置声明式事务管理（采用注解的方式）
+
+    <bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <tx:annotation-driven transaction-manager="txManager"/>-->
+    <!-- 配置 Spring 的声明式事务 -->
+    <!-- 1. 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <!--此句如果不加   后面的getCurrentSession会为空  -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <!-- 2. 配置事务属性, 需要事务管理器 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+    </tx:advice>
+    <!--<bean id="log" class="cn.commons.serviceImpl.LogServiceImplement"></bean> 将日志类注入到bean中。-->
+
+
+    <!-- 3. 配置事务切点, 并把切点和事务属性关联起来 -->
+    <aop:config>
+        <aop:pointcut expression="execution(* cm.service.*.*(..))"
+                      id="txPointcut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+        <!--   <aop:aspect id="b" ref="log">
+
+            <aop:before method="log" pointcut-ref="txPointcut" />
+             <aop:after method="logArg" pointcut-ref="txPointcut"/>
+             <aop:after-throwing method="failure" pointcut-ref="txPointcut"/>
+              <aop:after-returning method="logArgAndReturn" returning="returnObj" pointcut-ref="txPointcut"/>
+         </aop:aspect> -->
+
+    </aop:config>
+</beans>

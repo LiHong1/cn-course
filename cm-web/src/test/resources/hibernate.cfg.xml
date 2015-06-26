@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <!-- SQL dialect -->
+        <property name="dialect">
+            org.hibernate.dialect.MySQL5InnoDBDialect
+        </property>
+
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property>
+
+        <!-- Drop and re-create the database schema on startup-->
+        <property name="hbm2ddl.auto">update</property>
+        <mapping class="cm.entity.Application"/>
+        <mapping class="cm.entity.Course"/>
+        <mapping class="cm.entity.Job"/>
+        <mapping class="cm.entity.Manage"/>
+        <mapping class="cm.entity.Person"/>
+        <mapping class="cm.entity.State"/>
+        <mapping class="cm.entity.Teacher"/>
+        <mapping class="cm.entity.TimeLogging"/>
+        <mapping class="cm.entity.Topic"/>
+        <mapping class="cm.entity.Reply"/>
+        <mapping class="cm.entity.Case"/>
+        <mapping class="cm.entity.Material"/>
+        <mapping class="cm.entity.Answer"/>
+        <mapping class="cm.entity.Student"/>
+        <mapping class="cm.entity.Paper"/>
+        <mapping class="cm.commons.bean.PrimaryKeyItem"/>
+        <mapping class="cm.commons.bean.OperationLogItem"/>
+        <mapping class="cm.commons.bean.ConfigurationItem"/>
+        <mapping class="cm.entity.Operation"></mapping>
+        <mapping class="cm.entity.Clazz"/>
+
+    </session-factory>
+</hibernate-configuration>

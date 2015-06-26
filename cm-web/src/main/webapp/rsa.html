@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <title>JavaScript RSA Encryption Demo</title>
+</head>
+
+<script language="JavaScript" type="text/javascript" src="cm.security.js"></script>
+<script language="JavaScript" type="text/javascript" src="jquery-git1.js"></script>
+<script language="JavaScript">
+    <!--
+
+
+    function encry() {
+        var modulus = $('#hid_modulus').val(), exponent = $('#hid_exponent').val();
+
+        var key = RSAUtils.getKeyPair(exponent, '', modulus);
+
+        var word = $("#word").val();
+
+        var apwd1 = RSAUtils.encryptedString(key, word);
+
+        $("#clj").text(apwd1);
+    }
+    //-->
+</script>
+
+<body onLoad='set_1024f4();' onClick='rng_seed_time();' onKeyPress='rng_seed_time();'>
+<h1>JavaScript RSA Encryption Demo</h1>
+��Ҫ���ܵ��ַ�����
+<input type="text" id="word" value="test"/>
+<br/>
+<input type="text" id="hid_modulus"
+       value="00c99f8aab91bccb525d6ea16c40a8eb31dfa9594d1b487167a96d24c8e2d48ed1e9d759f3d1425728016cfffb9b42311108dc6b1f749e6902d6bc072d0533adc489e87eecd980590460fe62290b6a6210e5584919bf85a9cb7b02ebb3ef89aa0a61120dc3cfac1af480905bf269890654cc94e44512b2adc2bb6054cd15971061"/>
+<br/>
+<input type="text" id="hid_exponent" value="010001"/>
+<input type="button" onclick="encry()" value="����"/>
+
+<div id="clj"></div>
+</body>
+</html>

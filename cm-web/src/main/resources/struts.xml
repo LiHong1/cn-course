@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="false"/>
+    <constant name="struts.devMode" value="true"/>
+    <!-- 把扩展名配置为action -->
+    <constant name="struts.action.extension" value="action"/>
+    <!-- 把主题配置为simple -->
+    <constant name="struts.ui.theme" value="simple"/>
+    <constant name="struts.multipart.maxSize" value="209715200"/>
+    <constant name="struts.action.excludePattern" value="/dwr/.*"/>
+    <package name="default" namespace="/" extends="struts-default">
+        <interceptors>
+            <!--声明拦截器  -->
+            <interceptor name="checkPrivilege" class="cm.interceptor.CheckPrivilegeInterceptor"></interceptor>
+            <!--重新定义默认的拦截器栈 -->
+            <interceptor-stack name="defaultStack">
+                <interceptor-ref name="checkPrivilege"></interceptor-ref>
+                <interceptor-ref name="defaultStack"></interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+        <!-- 全局的Result配置 -->
+        <global-results>
+            <result name="loginUI">/index.jsp</result>
+            <result name="noPrivilegeError">/WEB-INF/jsp/public/noPrivilegeError.jsp</result>
+            <result name="urlError">/WEB-INF/jsp/public/urlError.jsp</result>
+            <result name="AuthException">/WEB-INF/jsp/public/error.jsp</result>
+            <result name="success">/WEB-INF/jsp/public/frameset.jsp</result>
+        </global-results>
+        <global-exception-mappings>
+            <exception-mapping result="sql" exception="java.sql.SQLException"></exception-mapping>
+            <exception-mapping result="urlError"
+                               exception="java.lang.NoSuchMethodException"></exception-mapping>
+            <exception-mapping result="AuthException"
+                               exception="cm.commons.exception.AuthException"></exception-mapping>
+        </global-exception-mappings>
+        <action name="student_*" class="studentAction" method="{1}">
+            <result name="top">/WEB-INF/jsp/public/top.jsp</result>
+            <result name="menu">/WEB-INF/jsp/studentAction/menu.jsp</result>
+            <result name="right" type="redirectAction">student_showCourse.action</result>
+            <result name="show">/WEB-INF/jsp/teacherAction/studentShow.jsp</result>
+            <result name="jobList">/WEB-INF/jsp/studentAction/jobList.jsp</result>
+            <result name="toJobList" type="redirectAction">student_jobList</result>
+            <result name="showCase">/WEB-INF/jsp/studentAction/showCase.jsp</result>
+            <result name="caseList">/WEB-INF/jsp/studentAction/caseList.jsp</result>
+            <result name="materialList">/WEB-INF/jsp/studentAction/materialList.jsp</result>
+            <result name="showCourse">/WEB-INF/jsp/studentAction/showCourse.jsp</result>
+            <result name="addUI">/WEB-INF/jsp/studentAction/register.jsp</result>
+            <result name="toLogin">index.jsp</result>
+            <result name="toTeacherStudentList" type="redirectAction">teacher_studentList.action</result>
+            <result name="submitSuccess" type="redirectAction">student_paperShow?id=${id}</result>
+            <result name="paper_unfinish">/WEB-INF/jsp/studentAction/paper_unfinish.jsp</result>
+            <result name="paper_finished">/WEB-INF/jsp/studentAction/paper_finished.jsp</result>
+            <result name="myExam">/WEB-INF/jsp/studentAction/exam.jsp</result>
+            <result name="list">/WEB-INF/jsp/manageAction/studentList.jsp</result>
+            <result name="toList" type="redirectAction">student_list</result>
+            <result name="toMyExam" type="redirectAction">student_myExam</result>
+        </action>
+        <!-- 申请操作 -->
+        <action name="application_*" class="applicationAction" method="{1}">
+            <result name="applyUI">/WEB-INF/jsp/studentAction/apply.jsp</result>
+            <result name="toClassManageUI" type="redirectAction">teacher_classManageUI.action?option=list;type=${type}
+            </result>
+        </action>
+        <action name="user_*" class="userAction" method="{1}">
+            <result name="success">/WEB-INF/jsp/public/index.jsp</result>
+            <result name="login">index.jsp</result>
+            <result name="play">/flexPaper/play.jsp</result>
+            <result name="toLogin">index.jsp</result>
+            <result name="changePassword">/WEB-INF/jsp/public/changePassword.jsp</result>
+        </action>
+        <action name="state_*" class="stateAction" method="{1}">
+            <result name="delete" type="redirectAction">class_list.action</result>
+            <result name="examSet">/WEB-INF/jsp/teacherAction/examSet.jsp</result>
+            <result name="examSetUI" type="redirectAction">state_examSetUI.action</result>
+        </action>
+        <action name="material_*" class="materialAction" method="{1}">
+            <result name="list">/WEB-INF/jsp/materialAction/list.jsp</result>
+            <result name="addUI">/WEB-INF/jsp/materialAction/addUI.jsp</result>
+            <result name="toAddUI" type="redirectAction">material_addUI.action</result>
+            <result name="toCase" type="redirectAction">case_updateUI.action?id=${id}</result>
+            <result name="show">/flexPaper/play.jsp</result>
+            <result name="player">/WEB-INF/jsp/studentAction/player.jsp</result>
+        </action>
+
+        <action name="teacher_*" class="teacherAction" method="{1}">
+            <result name="right" type="redirectAction">teacher_courseSetUI.action</result>
+            <result name="courseSetUI">/WEB-INF/jsp/teacherAction/courseSet.jsp</result>
+            <result name="classManage">/WEB-INF/jsp/teacherAction/classManage.jsp</result>
+            <result name="toClassManage" type="redirectAction">teacher_classManageUI.action</result>
+            <result name="studentManage">/WEB-INF/jsp/teacherAction/studentManage.jsp</result>
+            <result name="studentPaper">/WEB-INF/jsp/teacherAction/studentPaper.jsp</result>
+            <result name="examSet">/WEB-INF/jsp/teacherAction/examSet.jsp</result>
+            <result name="examJob">/WEB-INF/jsp/teacherAction/examJob.jsp</result>
+            <result name="toList" type="redirectAction">teacher_list.action</result>
+            <result name="toStudentList" type="redirectAction">teacher_studentList.action</result>
+            <result name="list">/WEB-INF/jsp/manageAction/teacherList.jsp</result>
+            <result name="studentList">/WEB-INF/jsp/teacherAction/studentList.jsp</result>
+        </action>
+        <action name="course_*" class="courseAction" method="{1}">
+            <result name="toList" type="redirectAction">course_list.action</result>
+            <result name="list">/WEB-INF/jsp/manageAction/courseList.jsp</result>
+            <result name="toCourseSetUI" type="redirectAction">teacher_courseSetUI.action</result>
+        </action>
+        <action name="paper_*" class="paperAction" method="{1}">
+            <result name="addUI">/WEB-INF/jsp/paperAction/addUI.jsp</result>
+            <result name="editUI">/WEB-INF/jsp/paperAction/editUI.jsp</result>
+            <result name="list">/WEB-INF/jsp/paperAction/list.jsp</result>
+            <result name="toList" type="redirectAction">paper_list.action</result>
+        </action>
+        <action name="case_*" class="caseAction" method="{1}">
+            <result name="toList" type="redirectAction">case_list.action</result>
+            <result name="list">/WEB-INF/jsp/caseAction/list.jsp</result>
+            <result name="addUI">/WEB-INF/jsp/caseAction/addUI.jsp</result>
+            <result name="updateUI">/WEB-INF/jsp/caseAction/updateUI.jsp</result>
+        </action>
+        <action name="class_*" class="classAction" method="{1}">
+            <result name="toList" type="redirectAction">class_list.action</result>
+            <result name="list">/WEB-INF/jsp/manageAction/classList.jsp</result>
+        </action>
+        <action name="topic_*" class="topicAction" method="{1}">
+            <result name="toList" type="redirectAction">topic_list.action</result>
+            <result name="list">/WEB-INF/jsp/topicAction/list.jsp</result>
+            <result name="addUI">/WEB-INF/jsp/topicAction/add.jsp</result>
+            <result name="show">/WEB-INF/jsp/topicAction/show.jsp</result>
+        </action>
+        <action name="reply_*" class="replyAction" method="{1}">
+            <result name="topicShow" type="redirectAction">topic_show.action?id=${topicId}</result>
+            <result name="list">/WEB-INF/jsp/classAction/list.jsp</result>
+        </action>
+        <action name="public_*" class="publicAction" method="{1}">
+            <result name="bottom">/WEB-INF/jsp/public/bottom.jsp</result>
+            <result name="frameset">/WEB-INF/jsp/public/frameset.jsp</result>
+        </action>
+
+        <!-- 管理中心 -->
+
+        <action name="manage_*" class="manageAction" method="{1}">
+            <result name="listCourse">/WEB-INF/jsp/manageAction/listCourse.jsp</result>
+            <result name="teacher">/WEB-INF/jsp/manageAction/teacher.jsp</result>
+            <result name="classes">/WEB-INF/jsp/manageAction/classes.jsp</result>
+            <result name="system">/WEB-INF/jsp/manageAction/system.jsp</result>
+        </action>
+        <action name="fileUpload_*" class="fileUploadAction" method="{1}">
+            <result name="material" type="redirectAction">material_addUI</result>
+            <result name="job" type="redirectAction">student_jobList</result>
+            <result name="caseMaterial" type="redirectAction">case_updateUI?id=${id}</result>
+            <result name="input">/WEB-INF/jsp/public/tooLargeError.jsp</result>
+        </action>
+        <action name="fileDownload_*" class="fileDownloadAction" method="{1}">
+
+            <result name="getMaterial" type="stream">
+                <param name="inputName">materialFile</param>
+                <param name="contentDisposition">attachment;filename=${name}</param>
+            </result>
+            <result name="getJob" type="stream">
+                <param name="inputName">jobFile</param>
+                <param name="contentDisposition">attachment;filename=${name}</param>
+                <!--<param name="contentType">application/octet-stream;charset=UTF-8</param>  -->
+            </result>
+            <result name="getJobs" type="stream">
+                <param name="inputName">jobsFile</param>
+                <param name="contentDisposition">attachment;filename=${name}</param>
+                <!-- <param name="contentType">application/octet-stream;charset=UTF-8</param>-->
+            </result>
+        </action>
+        <action name="system_*" class="systemAction" method="{1}">
+            <result name="success" type="redirectAction">manage_system</result>
+        </action>
+
+        <action name="setup" class="setupAction"></action>
+    </package>
+
+
+</struts>

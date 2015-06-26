@@ -1,0 +1,27 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.jxnu</groupId>
+        <relativePath>../cm-parent</relativePath>
+        <artifactId>cm-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>cm-commons</artifactId>
+    <name>cm-commons</name>
+    <packaging>jar</packaging>
+    <url>http://192.168.1.8:8080/cm-commons</url>
+    <description>基础模块</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.livesense</groupId>
+            <artifactId>jodconverter-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jacob-project</groupId>
+            <artifactId>jacob</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

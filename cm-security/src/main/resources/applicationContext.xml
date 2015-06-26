@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	default-lazy-init="true"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+    <context:annotation-config />
+	<context:component-scan base-package="cm">
+	    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" /> 
+	</context:component-scan>
+	<import resource="classpath*:META-INF/cxf/cxf.xml"/>
+	<import resource="classpath*:META-INF/cxf/cxf-servlet.xml"/>
+	<import resource="classpath*:spring-security.xml"/>
+	<bean id="studentWebservice" class="cm.webservice.StudentWebserviceImpl"/>
+   <jaxws:endpoint id="studentWebService" implementor="#studentWebservice" address="/studentService">
+		   <!--<jaxws:inInterceptors>
+                <bean class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor" />
+                <bean class="org.apache.cxf.ws.cm.security.wss4j.WSS4JInInterceptor">
+                    <constructor-arg>
+                        <map>
+                            &lt;!&ndash; 设置加密类型 &ndash;&gt;
+                            <entry key="action" value="UsernameToken" />
+                            &lt;!&ndash; 设置密码类型为明文 &ndash;&gt;
+                            <entry key="passwordType" value="PasswordText" />
+                            &lt;!&ndash;<entry key="action" value="UsernameToken Timestamp" /> 设置密码类型为加密<entry
+                                key="passwordType" value="PasswordDigest" /> &ndash;&gt;
+                            <entry key="passwordCallbackClass" value="com.service.handler.WsAuthHandler" />
+                        </map>
+                    </constructor-arg>
+                </bean>
+            </jaxws:inInterceptors>-->
+	</jaxws:endpoint>
+
+
+
+
+
+	<!--
+     <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />-->
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+    <aop:config proxy-target-class="true"/> -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+      
+
+				<property name="jdbcUrl" value="${jdbcUrl}"></property>
+				<property name="driverClass" value="${driverClass}"></property>
+				<property name="user" value="${user}"></property>
+				<property name="password" value="${password}"></property>
+				<property name="initialPoolSize" value="3"></property>
+				<property name="minPoolSize" value="3"></property>
+                <property name="maxIdleTime" value="60"></property>
+				<property name="maxPoolSize" value="50"></property>
+				<property name="acquireIncrement" value="3"></property>
+				<property name="maxStatements" value="8"></property>
+				<property name="maxStatementsPerConnection" value="5"></property>
+
+				
+    </bean>
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="hibernateProperties">
+			<props>
+				<!--<prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>-->
+				<!--<prop key="hibernate.hbm2ddl.auto">create</prop>-->
+				<!--<prop key="hibernate.hbm2ddl.import_files">member.sql</prop>-->
+
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.jdbc.batch_size">50</prop>
+			</props>
+		</property>
+		<property name="packagesToScan" value="cm"/>
+	</bean>
+    
+
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+    <tx:annotation-driven transaction-manager="transactionManager"  />
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+		<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+   
+	<aop:config>
+		 <aop:pointcut expression="execution(* cm.service.*.*(..))"
+            id="txPointcut"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>                 
+       <!--   <aop:aspect id="b" ref="log">  
+          
+           <aop:before method="log" pointcut-ref="txPointcut" />
+            <aop:after method="logArg" pointcut-ref="txPointcut"/> 
+            <aop:after-throwing method="failure" pointcut-ref="txPointcut"/>
+             <aop:after-returning method="logArgAndReturn" returning="returnObj" pointcut-ref="txPointcut"/> 
+        </aop:aspect> -->
+            
+	</aop:config>
+
+</beans>

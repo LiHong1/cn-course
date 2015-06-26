@@ -1,0 +1,15 @@
+<%@ page isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%--<!--[if lte IE 8]-->--%>
+<script  type="text/javascript" src="${pageContext.request.contextPath}/resources/script/jquery-1.9.1.js"></script>
+<%--<!--[else]-->
+<script  type="text/javascript" src="${pageContext.request.contextPath}/resources/script/jquery-2.1.1.js"></script>
+<!--[endif]-->--%>
+<script  type="text/javascript" src="${pageContext.request.contextPath}/resources/js/core.js"></script>
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/style/css/pageCommon.css" />
+<script language="javascript" src="${pageContext.request.contextPath}/resources/script/jquery.validate.js"></script>
+
+
+

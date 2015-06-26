@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security-4.0.xsd"
+        >
+
+    <!--<beans:bean name="bcryptEncoder"
+                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>-->
+
+
+       <http  pattern="/logout" security="none"></http>
+       <http  pattern="/student/application/apply" security="none"></http>
+       <http  pattern="/student/add" security="none"></http>
+       <http  pattern="/teacher/add" security="none"></http>
+       <http  pattern="/student/application/getClass" security="none"></http>
+       <http  pattern="/getCourse" security="none"></http>
+       <http  pattern="/getClass" security="none"></http>
+       <http  pattern="/dwr/**" security="none"></http>
+       <http  pattern="/resources*" security="none"></http>
+       <http  pattern="/main/menu" security="none"></http>
+       <http  pattern="/join" security="none"></http>
+       <http  pattern="/setup" security="none"></http>
+
+        <http auto-config="false" use-expressions="true" entry-point-ref="authenticationEntryPoint" >
+            <custom-filter ref="myLoginFilter" position="FORM_LOGIN_FILTER"></custom-filter>
+            <intercept-url pattern="/teacher/**" access="hasRole('ROLE_TEACHER')"/>
+            <intercept-url pattern="/manage/**" access="hasRole('ROLE_MANAGE')"/>
+            <intercept-url pattern="/student/**" access="hasRole('ROLE_STUDENT')"/>
+            <!--<access-denied-handler ref="accessDeniedHandler"></access-denied-handler>-->
+            <!--<http-basic />-->
+           <!-- <logout logout-url="/logout"
+                    logout-success-url="/login" />-->
+        </http>
+    <beans:bean class="cm.security.CmUserDetailService" id="myUserDetailService"/>
+
+
+    <beans:bean id="myLoginFilter" class="cm.security.CmUsernamePasswordAuthenticationFilter">
+        <beans:property name="authenticationManager" ref="authenticationManager"/>
+        <beans:property name="authenticationFailureHandler" ref="failureHandler"/>
+        <beans:property name="authenticationSuccessHandler" ref="successHandler"/>
+    </beans:bean>
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="myUserDetailService">
+            <password-encoder hash="md5" base64="false"></password-encoder>
+        </authentication-provider>
+    </authentication-manager>
+    <beans:bean id="failureHandler" class="cm.security.CmSimpleUrlAuthenticationFailureHandler">
+        <beans:property name="defaultFailureUrl" value="/login/failure"></beans:property>
+    </beans:bean>
+    <beans:bean id="successHandler" class="cm.security.CmSavedRequestAwareAuthenticationSuccessHandler">
+        <beans:property name="defaultTargetUrl" value="/login"></beans:property>
+    </beans:bean>
+    <beans:bean id="authenticationEntryPoint"
+          class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+       <beans:constructor-arg name="loginFormUrl" value="/login"></beans:constructor-arg>
+    </beans:bean>
+    <!-- 处理AccessDeniedException -->
+    <beans:bean id="accessDeniedHandler"
+                class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
+        <beans:property name="errorPage" value="/backend/admin/error403"/>
+    </beans:bean>
+</beans:beans>

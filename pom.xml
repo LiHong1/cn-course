@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.jxnu</groupId>
+    <artifactId>cm-root</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>cm-root</name>
+
+    <url>http://192.168.1.8:8080/</url>
+    <description>江西师大</description>
+
+    <modules>
+        <module>cm-parent</module>
+        <module>cm-commons</module>
+        <module>cm-model</module>
+        <module>cm-dao</module>
+        <module>cm-service</module>
+        <module>cm-sync</module>
+        <module>cm-security</module>
+        <module>cm-springMVC</module>
+        <!--<module>cm-web</module>-->
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <project.webserver>http://172.168.0.1:8080</project.webserver>
+        <project.remoteArtifactRepositories>${project.webserver}/nexus/content/groups/public
+        </project.remoteArtifactRepositories>
+        <sonar.language>java</sonar.language>
+        <skipTests>false</skipTests>
+        <compiler.debug>true</compiler.debug>
+        <compiler.optimize>true</compiler.optimize>
+        <springframework.version>4.1.6.RELEASE</springframework.version>
+        <svn.tagBase>svn://192.168.1.8/svn/cm/source/cm/tags/</svn.tagBase>
+        <svn.branchBase>svn://192.168.1.8/svn/cm/source/cm/branches/</svn.branchBase>
+        <maven-war-plugin.version>2.2</maven-war-plugin.version>
+    </properties>
+
+    <organization>
+        <name>江西师大</name>
+        <url>http://www.jxnu.edu.cn</url>
+    </organization>
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <name>Nexus Repo</name>
+            <url>http://127.0.0.1:8081/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>sourceforge</id>
+            <url>http://oss.sonatype.org/content/groups/sourceforge/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <distributionManagement>
+        <!--<repository>
+            <id>my-nexus-releases</id>
+            <name>Nexus Repo</name>
+            <url>http://127.0.0.1:8081/nexus/content/repositories/releases/</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>my-nexus-snapshot</id>
+            <name>Nexus Repo</name>
+            <url>http://127.0.0.1:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>-->
+    </distributionManagement>
+
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </testResource>
+        </testResources>
+        <pluginManagement>
+
+            <plugins>
+
+                <plugin>
+                    <groupId>org.mortbay.jetty</groupId>
+                    <artifactId>maven-jetty-plugin</artifactId>
+                    <version>6.1.26</version>
+                    <configuration>
+                        <scanIntervalSeconds>10</scanIntervalSeconds>
+                        <webApp>
+                            <contextPath>/jxnu</contextPath>
+                        </webApp>
+                        <connectors>
+                            <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                                <port>8080</port>
+                                <maxIdleTime>60000</maxIdleTime>
+                            </connector>
+                        </connectors>
+                    </configuration>
+                </plugin>
+                <!-- 下面，以aa代指生成的target下Web应用的文件夹名称，以bb代指发布到\tomcat\webapps\目录下的文件名称 -->
+                <!-- 1、aa以<finalName>值为准，并且无视<warName>值。若未指定<finalName>值，则默认为'artifactId-version' -->
+                <!-- 2、bb以<warName>值为优先。若未指定<warName>值，则以<finalName>值为准。若二者均未指定，则默认为'artifactId-version' -->
+                <!--  <finalName>jxnu</finalName>-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${maven-war-plugin.version}</version>
+                    <configuration>
+                        <!-- Run As Maven build : clean package 就可以发布到tomcat下了，并按照<warName>命名 -->
+                        <!-- 访问应用时，访问该地址即可：http://IP:Port/warName/ -->
+                        <warName>jxnu</warName>
+                        <outputDirectory>E:\apache-tomcat-8.0.12\webapps</outputDirectory>
+
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+
+        </plugins>
+    </build>
+
+    <reporting>
+
+    </reporting>
+
+</project>

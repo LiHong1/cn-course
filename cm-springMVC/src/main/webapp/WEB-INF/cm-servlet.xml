@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+        http://www.directwebremoting.org/schema/spring-dwr
+        http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd ">
+	<mvc:annotation-driven/>
+	<mvc:resources location="/resources/" mapping="/resources/**"/>
+    <mvc:resources location="/file/" mapping="/file/**"/>
+    <mvc:resources location="/WEB-INF/jsp/sitemesh/" mapping="/WEB-INF/jsp/sitemesh/**"/>
+	<context:component-scan base-package="cm">
+	  <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" /> 
+      <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" /> 
+	</context:component-scan>
+<!--   <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+      <property value="true" name="alwaysUseFullPath"></property> 
+      <property name="mappings">
+        <props>
+          <prop key="/dwr/**/*">dwrController</prop>
+        </props>
+     </property>
+    </bean>
+    <dwr:controller id="dwrController" debug="false"/>-->
+    <!--<dwr:annotation-config id="dwrAnnotationConfig" />-->
+   <!-- <dwr:annotation-scan base-package="cm.dwr" scanDataTransferObject="true"/>-->
+    <!-- 视图解析器和json解析器 -->
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="viewResolvers">
+            <list>
+                <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                    <property name="prefix" value="/WEB-INF/jsp/" /> <!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑 -->
+                    <property name="suffix" value=".jsp"/>
+                </bean>
+            </list>
+        </property>
+        <property name="defaultViews">
+            <list>
+                <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+                        <property  name="jsonpParameterNames">
+                            <set>
+                                <value>jsonp</value>
+                                <value>callback</value>
+                            </set>
+                        </property>
+               </bean>
+            </list>
+        </property>
+    </bean>
+    <!-- 配置MultipartResolver 用于文件上传 使用spring的CommosMultipartResolver -->
+     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+       <property name="maxUploadSize" value="500000000"></property>
+       <property name="defaultEncoding" value="UTF-8"></property>
+     </bean>
+
+   <!--<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="cm.commons.exception.BusinessException">error</prop>
+            </props>
+		</property>
+	</bean>-->
+
+</beans>

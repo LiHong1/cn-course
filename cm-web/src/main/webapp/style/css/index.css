@@ -1,0 +1,34 @@
+body {
+    height: auto
+}
+
+#top {
+    margin: 0px;
+    background-color: #0c4a79;
+    height: 120px;
+    color: #fff;
+}
+
+#left {
+    width: 12%;
+    background: url(../images/menu/SysLeft_bg.gif);
+    float: left;
+    height: 700px;
+}
+
+#bottom {
+    clear: both;
+    text-align: center;
+    font-size: 14;
+    font-family: 'Helvetica Regular', 'Helvetica';
+}
+
+#right {
+    float: left;
+    height: auto;
+    width: 60%
+}
+
+#content {
+    margin-left: 100px;
+}

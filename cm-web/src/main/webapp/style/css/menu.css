@@ -1,0 +1,25 @@
+#menu {
+    margin: auto;
+    margin-top: 40px;
+    text-align: center;
+    border-spacing: 1px;
+    border-spadding: 1px;
+    border: 0px;
+    background-color: #797979;
+    width: 100px
+}
+
+#menu div {
+    background: url(../images/menu/tag.gif);
+    height: 30px;
+}
+
+#menu div a {
+    text-decoration: none;
+    color: #eee;
+    font-size: 13px;
+}
+
+#menu div a:hover {
+    color: red;
+}

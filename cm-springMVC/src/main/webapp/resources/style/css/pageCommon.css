@@ -1,0 +1,170 @@
+/*------公共框架样式开始----- */
+body{
+    height:auto;
+    font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", "宋体";
+    margin:0;
+    padding:0;
+    color:#333333;
+    font-size: 14px;
+    /*background:#fff url(../images/top/top_bg.gif) repeat-x;*/
+
+
+}
+li,ul{margin: 0px;padding: 0px}
+
+#loginForm{
+    position:absolute;
+    margin-left:200px;
+    margin-top:270px;
+    width:400px;
+    height:300px;
+
+}
+.u_img{
+    position:absolute;
+    left:0px;
+    top:0px;
+
+}
+.u{
+    font-family:'Helvetica Regular', 'Helvetica';
+    font-weight:400;
+    font-style:normal;
+    font-size:14px;
+    color:#AE5300;
+    cursor: pointer;
+    width:101px;
+    height:26px;
+}
+
+.u1 {
+    position:absolute;
+    left:2px;
+    top:4px;
+    width:101px;
+    height:26px;
+    word-wrap:break-word;
+}
+.u1 p{
+    margin:0px;
+    padding:0px;
+}
+.u1 span{
+    text-align:center;
+    display: block;
+    margin-top:2px;
+}
+.input{
+    margin-bottom:20px;
+}
+.button{
+    float:left;
+    width: 140px;
+    height: 30px;
+    position: relative;
+}
+label.error
+{
+    color:red;
+    font-size:15px;
+    margin-left:5px;
+    padding-left:16px;
+}
+textarea{
+    height:378px;
+    width:700px;
+}
+#form label.error {
+    color: red;
+    font-size: 15px;
+    margin-left: 5px;
+    padding-left: 16px;
+}
+#ch_password{margin-left: 200px}
+/*--------公共框架样式结束---------- */
+
+
+/*------TOP 模块的样式开始-------------*/
+#top{
+    margin:0px;
+    margin-bottom: 15px;
+}
+#top_content{
+    /* filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#cccccc,endcolorstr=#cccccc,gradientType=0);*/
+    width:100%;
+    height: 35px;
+    /*padding-top: 4px;*/
+    background: #eee;
+    color:black;
+    position: relative;
+}
+#top_title{
+    text-align: center;
+    font-size: 25px;
+    height: 35px;
+    padding-top:2px;
+    color:white;
+    width: 100%;
+    background-color: #000;
+    opacity: 0.7;
+}
+.column_1{
+    position: absolute;
+    top: 6px;
+    right: 30px;
+    width: auto;
+    display: block;
+}
+.column_2{
+    position: absolute;
+    top: 10px;
+    right: 150px;
+    width: auto;
+    display: block;
+}
+/*------TOP 模块的样式结束-------------*/
+
+/*-------菜单模块的样式开始--------*/
+#left{
+    width:18%;
+    background: #eee;
+    float:left;
+    height:100%;
+}
+/*-------菜单模块的样式结束--------*/
+#bottom{
+    text-align: center;
+    font-size: 14px;
+    border-top: 5px solid #947443;
+    height: 50px;   clear: both;
+}
+
+/*-------右边模块的样式开始--------*/
+#right{
+    float:right;
+    height:100%;
+    width:81%;
+    background: #f5f5f5;
+    opacity: 0.8;
+}
+#container{
+    width: 980px;
+    left: 50%;
+    height: 1000px;
+    margin-left:-490px;
+    position: relative;
+
+}
+#right #content{
+    padding: 30px;
+}
+#title{
+  font-size: 25px;
+  color:#333333;
+  margin-bottom: 30px;
+  /* margin-top: 20px;*/
+  text-align: center;
+}
+/*-------右边模块的样式开始--------*/
+
+  

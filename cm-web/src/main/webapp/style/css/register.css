@@ -1,0 +1,41 @@
+body {
+    background-color: #245687;
+    color: #fff;
+}
+
+#area {
+
+    width: 400px;
+    height: 324px;
+    float: left;
+    margin-top: 30px;
+    margin-left: 80px;
+}
+
+#form label.error {
+    color: red;
+    font-size: 15px;
+    margin-left: 5px;
+    padding-left: 16px;
+    background-image: url("../images/check/error.gif");
+    background-repeat: no-repeat;
+
+}
+
+#container {
+    background-image: url("../images/register/bg.jpg");
+    background-repeat: no-repeat;
+    width: 817px;
+    height: 384;
+    margin: auto;
+    margin-top: 120px;
+}
+
+#title {
+    margin-left: -140px;
+    color: #A52A2A
+}
+
+input {
+    width: 153px
+}

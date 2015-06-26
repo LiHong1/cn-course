@@ -1,0 +1,39 @@
+.h{
+ margin-left: 50px;
+ margin-bottom:20px;
+  height: 30px
+}
+.switch{
+position: absolute;
+width: 60px;
+height: 26px;
+color: white;
+text-align: center;
+font-family:'Arial Negreta', 'Arial';
+font-weight:700;
+font-style:normal;font-size: 12;
+cursor: pointer;
+}
+.switch_on{
+float: left;
+background-image: url('../images/manage/u54.png');
+width: 36px;
+height: 26px;
+display: block
+}
+.switch_state1{
+	float: left; background-image: url('../images/manage/u56.png');width: 24px;height: 25px;display: block
+}
+.switch_off{
+	float: right;background-image: url('../images/manage/u58.png');width: 36px;height: 26px;display: none
+}
+.switch_state2{
+  float: right; background-image: url('../images/manage/u56.png');width: 24px;height: 25px;display: none
+}
+.h  span{
+  margin-top:5px;
+  display: block;
+}
+.h1{
+    height:60px;
+}
